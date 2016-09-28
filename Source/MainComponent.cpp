@@ -115,7 +115,7 @@ public:
     void releaseResources() override
     {
       // Dispose of oscillators
-      for(auto iter = oscillators.begin(); iter != oscillators.end(); iter++) {
+      for (auto iter = oscillators.begin(); iter != oscillators.end(); iter++) {
         delete *iter;
       }
       // Free all child components
@@ -130,14 +130,14 @@ public:
       // computing one block
       for (int index = 0; index < bufferToFill.numSamples; ++index)
       {
-        float sample = 0;
-        for (auto iter = oscillators.begin(); iter != oscillators.end(); iter++)
-        {
-          Oscillator *osc = *iter;
-          sample += (1.f / this->numOsc) * osc->tick();
-        }
-        sample *= gain;
         if (onOff) {
+          float sample = 0;
+          for (auto iter = oscillators.begin(); iter != oscillators.end(); iter++)
+          {
+            Oscillator *osc = *iter;
+            sample += (1.f / this->numOsc) * osc->tick();
+          }
+          sample *= gain;
           buffer[index] = sample;
         } else {
           buffer[index] = 0;
@@ -157,22 +157,20 @@ private:
       label->setText(labelText, dontSendNotification);
       label->attachToComponent(slider, true);
       addAndMakeVisible(label);
-      labels.push_back(label);
 
       return slider;
     }
 
     // UI Elements
     std::vector<Slider*> sliders;
-    std::vector<Label*> labels;
-    std::vector<Oscillator*> oscillators;
-
     Slider *gainSlider;
     ToggleButton *onOffButton;
 
-    float gain;
+    // Audio elements
+    std::vector<Oscillator*> oscillators;
 
     // Global Variables
+    float gain;
     int onOff, samplingRate, nChans, numOsc;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)

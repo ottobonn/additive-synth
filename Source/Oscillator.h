@@ -4,6 +4,12 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Sine.h"
 
+/**
+ * Defines a generic oscillator interface for use with GUI sliders.
+ * Each oscillator contains a Sine object, but the type of wave is not
+ * coupled to the interface, so adding more wave types is easy.
+ */
+
 class Oscillator :
   public Slider::Listener
 {
