@@ -1,7 +1,9 @@
-# BasicAudio
+# AdditiveSynth
 
-Demonstrates how to deal with audio in JUCE. Implements a simple sine wave oscillator from scratch where the frequency and the gain can be controlled using sliders and a checkbox allows to turn it on or off.
+A simple additive synthesizer built with JUCE. The synthesizer features four
+oscillators chained to a master frequency slider, each with an adjustable 
+frequency offset in semitones, and an adjustable gain.
 
----
+## Credits
 
-Implemented by Romain Michon (rmichonATccrmaDOTstanfordDOTedu) for Music 256a / CS 476a (fall 2016).
+Based on starter code by Romain Michon for Music 256a / CS 476a (Fall 2016).
