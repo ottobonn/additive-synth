@@ -16,17 +16,21 @@ class Oscillator :
 
 public:
 
-  Oscillator (Slider *frequencySlider, Slider *gainSlider):
-    frequencySlider(frequencySlider), gainSlider(gainSlider), gain(0.f)
+  Oscillator (Slider *offsetSlider, Slider *gainSlider):
+    offsetSlider(offsetSlider),
+    gainSlider(gainSlider),
+    gain(0.f),
+    baseFrequency(0.f),
+    offsetSemitones(0.f)
   {
-    frequencySlider->addListener(this);
+    offsetSlider->addListener(this);
     gainSlider->addListener(this);
   }
 
   void sliderValueChanged (Slider* slider) override {
     float value = slider->getValue();
-    if (slider == frequencySlider){
-      (this->sine).setFrequency(value);
+    if (slider == offsetSlider){
+      this->setOffsetSemitones(value);
     } else if (slider == gainSlider){
       this->gain = value;
     }
@@ -40,8 +44,14 @@ public:
     return (this->sine).getSamplingRate();
   }
 
-  void setFrequency (float frequency) {
-    (this->sine).setFrequency(frequency);
+  void setBaseFrequency (float frequency) {
+    this->baseFrequency = frequency;
+    this->updateWaveFrequency();
+  }
+
+  void setOffsetSemitones (float semitones) {
+    this->offsetSemitones = semitones;
+    this->updateWaveFrequency();
   }
 
   double tick (){
@@ -51,8 +61,13 @@ public:
 private:
   Sine sine;
   float gain;
+  float baseFrequency, offsetSemitones;
 
-  Slider *gainSlider, *frequencySlider;
+  Slider *gainSlider, *offsetSlider;
+
+  void updateWaveFrequency () {
+    (this->sine).setFrequency(this->baseFrequency * pow(2, this->offsetSemitones / 12));
+  }
 
 };
 
